@@ -13,9 +13,10 @@ import "./interfaces/IFancyNames.sol";
 contract FancyNames is  IFancyNames {
 
     function setBasicNameOnMint(uint256 tokenId) external {
-        (bool success,) = msg.sender.call(abi.encodeWithSignature("setBaseURI(string)", "test"));
-        require(success == true, "call failure");
-        
+        bytes memory payload = abi.encodeWithSignature("setBaseURI(string)", "test");
+        address addr = msg.sender;
+        (bool success,) = addr.call(payload);
+        require(success == true, "setBaseURI call failure");
     }
 
     function changeNameUpdater(uint256 tokenId, string memory newName) external {
